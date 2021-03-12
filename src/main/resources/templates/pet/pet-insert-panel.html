@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Cabinet vétérinaire</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div lang="tr" th:replace="fragments/header :: header"></div> 
+			<div lang="tr" th:replace="fragments/header :: title"></div>
+			<div class="col-md-12"></div>
+			<div class="col-md-4"  >
+				<div class="card" style="width: 18rem;">
+					<img class="card-img-top" src="..." alt="Card image cap">
+					<div class="card-body">
+						<h5 class="card-title"><span class="badge badge-primary" >Informations client</span></h5>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item" th:text="${customer.getFirstname()}+' '+${customer.getLastname()}"></li>
+						<li class="list-group-item" th:text="${customer.getCity()}"></li>
+						<li class="list-group-item" th:text="${customer.getEmail()}"></li>
+					</ul>
+					<div class="card-body">
+						<a th:href="@{'/customer/show-customer/' + ${customer.getCustomerid()}}" class="btn btn-info btn-sm">Montrer</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8" style="border:3px solid #ddd; padding: 5px 5px;" >
+				<h1 class="h3 mb-3 font-weight-normal"><span class="badge badge-info" >Section d'ajout d'animaux</span></h1>
+				<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${message}">
+					<strong th:text="${message}"></strong> 
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			    <form autocomplete="off" action="#" th:action="@{'/pet/insert-pet/' + ${customer.getCustomerid()}}" th:object="${pet}" method="post">
+				    <hr>
+  					<label>Sélectionner le genre</label>
+					<select name="type" class="form-control" th:field="*{type}">
+					  <option th:each="type : ${types}" 
+					          th:value="${type.name()}" 
+					          th:text="${type.name()}"></option>
+					</select>
+					<br/>
+			    	<label>Nom</label>
+			        <input type="text" id="email" placeholder=" Nom de l'animal" th:field="*{name}" class="form-control" required="required"/><br/>
+			        <label> Age</label>
+			        <input type="text" id="age" placeholder="Age de l'animal" th:field="*{age}" class="form-control" required="required"/><br/>
+			        <label>Décrivez le problème </label>
+			        <input type="text" id="password" placeholder="Problème ... " th:field="*{problem}" class="form-control" required="required"/><br/>
+			        <button type="submit" class="btn btn-primary text-center form-control">Ajouter</button>
+			    </form>
+			</div>
+		</div>
+	</div>
+	
+	<div lang="tr" th:replace="fragments/header :: jsfile"></div>
+	</body>
+</html>
